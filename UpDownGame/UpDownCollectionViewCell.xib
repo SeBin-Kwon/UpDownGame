@@ -17,6 +17,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="100" height="94"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F2M-zC-A6e">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="94"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aK3-hc-p5F">
                         <rect key="frame" x="0.0" y="0.0" width="100" height="94"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -28,13 +32,18 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" systemColor="linkColor"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="F2M-zC-A6e" secondAttribute="trailing" id="2bU-AF-FlL"/>
                 <constraint firstAttribute="bottom" secondItem="aK3-hc-p5F" secondAttribute="bottom" id="CSv-A6-a5t"/>
                 <constraint firstAttribute="trailing" secondItem="aK3-hc-p5F" secondAttribute="trailing" id="Mfi-dQ-Qyt"/>
+                <constraint firstItem="F2M-zC-A6e" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Qft-yC-L7J"/>
                 <constraint firstItem="aK3-hc-p5F" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ZI7-XZ-JZX"/>
+                <constraint firstAttribute="bottom" secondItem="F2M-zC-A6e" secondAttribute="bottom" id="bGQ-dl-lso"/>
                 <constraint firstItem="aK3-hc-p5F" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="d9l-UZ-kLY"/>
+                <constraint firstItem="F2M-zC-A6e" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dbV-EA-Iix"/>
             </constraints>
             <size key="customSize" width="100" height="94"/>
             <connections>
+                <outlet property="cellBackground" destination="F2M-zC-A6e" id="FAm-hP-MbU"/>
                 <outlet property="cellLabel" destination="aK3-hc-p5F" id="lLZ-PI-cyG"/>
             </connections>
             <point key="canvasLocation" x="42.748091603053432" y="35.91549295774648"/>
@@ -43,6 +52,9 @@
     <resources>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

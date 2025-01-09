@@ -15,11 +15,17 @@ class UpDownViewController: UIViewController {
     @IBOutlet var resultButton: UIButton!
     static let identifier = "UpDownViewController"
     var maxNumber: Int?
-    var beforeSelected = Cell(number: 0, isSelected: false)
+    var minNumber = 1
     var selectNumber = 1
     lazy var totalList = Array(1...(maxNumber ?? 1))
     var answer = 0
-    var cellList: [Cell] = []
+    var remainingList = [Int]()
+    
+    enum UpDown {
+        case up
+        case down
+        case correct
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,23 +36,38 @@ class UpDownViewController: UIViewController {
         configureCollectionViewLayout()
         view.backgroundColor = .background
         answer = Int.random(in: 1...(maxNumber ?? 1))
-        totalList.forEach {
-            cellList.append(Cell(number: $0, isSelected: false))
-        }
+        remainingList = totalList
     }
     
     
     @IBAction func resultButtonTapped(_ sender: UIButton) {
-        guard let max = maxNumber else { return }
-//        if selectNumber < answer {
-//            titleLabel.text = "UP"
-//        } else if selectNumber > answer {
-//
-//        } else {
-//            titleLabel.text = "GOOD"
-//        }
-//        collectionView.reloadData()
+        if selectNumber < answer {
+            titleLabel.text = "UP"
+            updateRemainigList(min: selectNumber, max: maxNumber ?? 1)
+            minNumber = selectNumber
+            
+            print(remainingList)
+        } else if selectNumber > answer {
+            titleLabel.text = "DOWN"
+            updateRemainigList(min: minNumber, max: selectNumber-1)
+            maxNumber = selectNumber
+            print(remainingList)
+        } else {
+            titleLabel.text = "GOOD"
+            
+        }
+        collectionView.reloadData()
     }
+    
+    func updateRemainigList(min: Int, max: Int) {
+        remainingList = Array(totalList[min..<max])
+    }
+
+}
+
+
+// MARK: CollectionView
+extension UpDownViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     private func configureCollectionView() {
         let id = UpDownCollectionViewCell.identifier
@@ -55,7 +76,7 @@ class UpDownViewController: UIViewController {
         collectionView.backgroundColor = .background
     }
     
-    func configureCollectionViewLayout() {
+    private func configureCollectionViewLayout() {
         let cellSpacing: CGFloat = 5
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -68,32 +89,28 @@ class UpDownViewController: UIViewController {
         collectionView.collectionViewLayout = layout
     }
     
-}
-
-
-
-
-extension UpDownViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if beforeSelected.number != cellList[indexPath.item].number && beforeSelected.isSelected { return }
-        cellList[indexPath.item].isSelected.toggle()
-        selectNumber = cellList[indexPath.item].number
-        beforeSelected = cellList[indexPath.item]
-        collectionView.reloadData()
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? UpDownCollectionViewCell else { return }
+        cell.updateCell(false)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? UpDownCollectionViewCell else { return }
+        cell.updateCell(true)
+        selectNumber = remainingList[indexPath.item]
+    }
+    
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        totalList.count
+        remainingList.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpDownCollectionViewCell.identifier, for: indexPath)
         guard let collectionCell = cell as? UpDownCollectionViewCell else { return cell }
-//        let range = selectNumber...(maxNumber ?? 1)
         
-        collectionCell.cellLabel.text = String(cellList[indexPath.item].number)
-        collectionCell.updateCell(isSelected: cellList[indexPath.item].isSelected)
+        collectionCell.cellLabel.text = String(remainingList[indexPath.item])
+        collectionCell.configureData(text: String(remainingList[indexPath.item]))
         collectionCell.layer.cornerRadius = collectionCell.frame.height / 2
         return collectionCell
     }
