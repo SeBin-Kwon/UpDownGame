@@ -19,21 +19,30 @@ class ViewController: UIViewController {
         configureTextField()
         setupKeyboardEvent()
     }
-    
-    
-    
+
     @IBAction func startButtonTapped(_ sender: UIButton) {
         guard let number = textField.text else { return }
+        guard let num = Int(number) else {
+            displayAlert("숫자를 입력해 주세요")
+            return
+        }
+        guard checkNumber(num) else { return }
         let vc = storyboard?.instantiateViewController(withIdentifier: UpDownViewController.identifier) as? UpDownViewController
         guard let vc else { return }
         vc.maxNumber = Int(number)
         view.endEditing(true)
         navigationController?.pushViewController(vc, animated: true)
+        textField.text = ""
+    }
+    
+    @IBAction func tapGestureTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
     
 }
 
 
+// MARK: TextField
 extension ViewController {
     private func configureTextField() {
         textField.borderStyle = .none
@@ -53,24 +62,5 @@ extension ViewController {
         border.backgroundColor = UIColor.white.cgColor
         textField.layer.addSublayer(border)
         textField.textAlignment = .center
-    }
-    
-    private func setupKeyboardEvent() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ sender: Notification) {
-        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-        if view.frame.origin.y == 0 {
-            view.frame.origin.y -= keyboardHeight
-        }
-    }
-    
-    @objc private func keyboardWillHide(_ sender: Notification) {
-        if view.frame.origin.y != 0 {
-            view.frame.origin.y = 0
-        }
     }
 }
