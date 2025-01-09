@@ -20,6 +20,7 @@ class UpDownViewController: UIViewController {
     var answer = 0
     var remainingList = [Int]()
     var count = 0
+    var isEnd = false
     var countText: String {
         "시도 횟수: \(count)"
     }
@@ -51,6 +52,8 @@ class UpDownViewController: UIViewController {
             maxNumber = selectNumber
         } else {
             titleLabel.text = "GOOD!"
+            isEnd = true
+            resultButton.isEnabled = false
             return
         }
         count += 1
@@ -99,14 +102,18 @@ extension UpDownViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? UpDownCollectionViewCell else { return }
-        cell.updateCell(false)
+        if !isEnd {
+            cell.updateCell(false)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? UpDownCollectionViewCell else { return }
-        cell.updateCell(true)
-        selectNumber = remainingList[indexPath.item]
-        resultButton.isEnabled = true
+        if !isEnd {
+            cell.updateCell(true)
+            selectNumber = remainingList[indexPath.item]
+            resultButton.isEnabled = true
+        }
     }
     
     
