@@ -10,10 +10,10 @@ import UIKit
 class UpDownCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "UpDownCollectionViewCell"
+    @IBOutlet var cellLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
 }
