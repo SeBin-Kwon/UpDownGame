@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet var startButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureBackButton()
         startButton.configureButtonUI(.black, for: .normal)
         configureTextField()
         setupKeyboardEvent()
@@ -36,6 +37,12 @@ class ViewController: UIViewController {
     
     @IBAction func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    private func configureBackButton() {
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButton.tintColor = .black
+        navigationItem.backBarButtonItem = backButton
     }
     
     override func viewDidDisappear(_ animated: Bool) {

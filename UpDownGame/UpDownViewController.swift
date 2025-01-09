@@ -45,13 +45,10 @@ class UpDownViewController: UIViewController {
             titleLabel.text = "UP"
             updateRemainigList(min: selectNumber, max: maxNumber ?? 1)
             minNumber = selectNumber
-            
-            print(remainingList)
         } else if selectNumber > answer {
             titleLabel.text = "DOWN"
             updateRemainigList(min: minNumber, max: selectNumber-1)
             maxNumber = selectNumber
-            print(remainingList)
         } else {
             titleLabel.text = "GOOD!"
             return
@@ -85,15 +82,18 @@ extension UpDownViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     private func configureCollectionViewLayout() {
-        let cellSpacing: CGFloat = 5
+        let cellSpacing: CGFloat = 10
+        let minimumLineSpacing: CGFloat = 10
+        let minimumInteritemSpacing: CGFloat = 5
+        let cellCount: CGFloat = 6
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = minimumLineSpacing
+        layout.minimumInteritemSpacing = minimumInteritemSpacing
         let width = UIScreen.main.bounds.width
-        let cellWidth = width - (cellSpacing * 5)
-        layout.itemSize = CGSize(width: cellWidth / 6, height: cellWidth / 6)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let cellWidth = width - (cellSpacing * (cellCount-1))
+        layout.itemSize = CGSize(width: cellWidth / cellCount, height: cellWidth / cellCount)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.collectionViewLayout = layout
     }
     
