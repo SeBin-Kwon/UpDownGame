@@ -14,6 +14,12 @@ class UpDownCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        configureLabelUI()
+    }
+    
+    private func configureLabelUI() {
+        cellLabel.font = .systemFont(ofSize: 13, weight: .bold)
+        cellLabel.textAlignment = .center
     }
 
 }
