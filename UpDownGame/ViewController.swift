@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet var startButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        startButton.configureButtonUI()
+        startButton.configureButtonUI(.black, for: .normal)
         configureTextField()
         setupKeyboardEvent()
     }
@@ -32,11 +32,14 @@ class ViewController: UIViewController {
         vc.maxNumber = Int(number)
         view.endEditing(true)
         navigationController?.pushViewController(vc, animated: true)
-        textField.text = ""
     }
     
     @IBAction func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        textField.text = ""
     }
     
 }

@@ -9,7 +9,6 @@ import UIKit
 
 class UpDownCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "UpDownCollectionViewCell"
     @IBOutlet var cellLabel: UILabel!
     @IBOutlet var cellBackground: UIView!
     

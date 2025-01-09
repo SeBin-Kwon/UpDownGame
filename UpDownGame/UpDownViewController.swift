@@ -13,26 +13,26 @@ class UpDownViewController: UIViewController {
     @IBOutlet var subLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var resultButton: UIButton!
-    static let identifier = "UpDownViewController"
     var maxNumber: Int?
     var minNumber = 1
     var selectNumber = 1
     lazy var totalList = Array(1...(maxNumber ?? 1))
     var answer = 0
     var remainingList = [Int]()
-    
-    enum UpDown {
-        case up
-        case down
-        case correct
+    var count = 0
+    var countText: String {
+        "시도 횟수: \(count)"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+        configureLabelUI()
         configureCollectionView()
-        resultButton.configureButtonUI()
+        resultButton.configureButtonUI(.black, for: .normal)
+        resultButton.configureButtonUI(.gray, for: .disabled)
+        resultButton.isEnabled = false
         configureCollectionViewLayout()
         view.backgroundColor = .background
         answer = Int.random(in: 1...(maxNumber ?? 1))
@@ -53,15 +53,23 @@ class UpDownViewController: UIViewController {
             maxNumber = selectNumber
             print(remainingList)
         } else {
-            titleLabel.text = "GOOD"
-            
+            titleLabel.text = "GOOD!"
+            return
         }
+        count += 1
+        subLabel.text = countText
+        resultButton.isEnabled = false
         collectionView.reloadData()
     }
     
     func updateRemainigList(min: Int, max: Int) {
         remainingList = Array(totalList[min..<max])
     }
+    
+    private func configureLabelUI() {
+        subLabel.text = "시도 횟수: 0"
+    }
+    
 
 }
 
@@ -98,6 +106,7 @@ extension UpDownViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = collectionView.cellForItem(at: indexPath) as? UpDownCollectionViewCell else { return }
         cell.updateCell(true)
         selectNumber = remainingList[indexPath.item]
+        resultButton.isEnabled = true
     }
     
     
