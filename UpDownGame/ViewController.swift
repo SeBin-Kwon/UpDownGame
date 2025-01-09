@@ -13,9 +13,11 @@ class ViewController: UIViewController {
     @IBOutlet var subLabel: UILabel!
     @IBOutlet var textField: UITextField!
     @IBOutlet var startButton: UIButton!
+    @IBOutlet var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
+        imageView.image = UIImage(named: "emotion1")
         startButton.configureButtonUI(.black, for: .normal)
         configureTextField()
         setupKeyboardEvent()
@@ -47,6 +49,8 @@ class ViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         textField.text = ""
+        let num = Int.random(in: 1...5)
+        imageView.image = UIImage(named: "emotion\(num)")
     }
     
 }

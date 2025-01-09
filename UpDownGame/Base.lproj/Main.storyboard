@@ -87,6 +87,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="YbV-w2-0GG"/>
                     <connections>
+                        <outlet property="imageView" destination="90S-Nr-6O3" id="7rk-Rr-OEh"/>
                         <outlet property="startButton" destination="TjG-Ev-HgS" id="plp-t1-mJ9"/>
                         <outlet property="subLabel" destination="l2e-P3-RNI" id="e6v-gi-82M"/>
                         <outlet property="textField" destination="Taa-id-dUb" id="goq-jy-5lk"/>
